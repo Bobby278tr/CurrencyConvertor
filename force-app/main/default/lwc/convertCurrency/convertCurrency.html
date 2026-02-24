@@ -1,5 +1,6 @@
 <template>
-    <lightning-card title="Currency Convertor" icon-name="utility-currency">
+    <lightning-card title="Currency Convertor" icon-name="standard:currency">
+        
         <div class="formatfile slds-var-p-around_small">
             <!-- Input Amount -->
              <lightning-input label="Enter Amount" onchange={changeHandler} name="amount">
@@ -12,8 +13,6 @@
                     <lightning-combobox
                         name="fromcurr"
                         label="From Currency"
-                        value={value}
-                        placeholder="Select Progress"
                         options={currencyOptions}
                         onchange={changeHandler} >
                     </lightning-combobox>
@@ -22,8 +21,6 @@
                     <lightning-combobox
                         name="tocurr"
                         label="To Currency"
-                        value={value}
-                        placeholder="Select Progress"
                         options={currencyOptions}
                         onchange={changeHandler} >
                     </lightning-combobox>

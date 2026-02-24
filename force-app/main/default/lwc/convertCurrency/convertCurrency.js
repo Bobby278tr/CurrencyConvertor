@@ -8,11 +8,11 @@ export default class ConvertCurrency extends LightningElement {
     enteredAmount = '';
     currencyOptions = [];
 
-    connectCallback(){
+    connectedCallback(){
         this.fetchSymbols();
     }
     changeHandler(event){
-        let {name, label} = event.target;
+        let {name, value} = event.target;
         if(name === 'amount'){
             this.enteredAmount = value;
         }else if(name ==='fromcurr'){
@@ -21,14 +21,14 @@ export default class ConvertCurrency extends LightningElement {
             this.toCurrency = value;
         }
     }
-    clickHandler(event){
-
+    clickHandler(){
+        this.conversion();
     }
 
     async fetchSymbols(){
         let endpoint ='https://api.frankfurter.app/currencies';
         try{
-            const res = await fetch(endpoint);
+            let res = await fetch(endpoint);
             if(!res.ok){
                 throw new Error('Network response as not ok');
             }
@@ -43,5 +43,20 @@ export default class ConvertCurrency extends LightningElement {
             console.log(error);
         }
         
+    }
+
+    async conversion(){
+        let endpoint = `https://api.frankfurter.app/latest?amount=${this.enteredAmount}&from=${this.fromCurrency}&to=${this.toCurrency}`;
+        try{
+            let res = await fetch(endpoint);
+            if(!res.ok){
+                throw new Error('Network response was not ok');
+            }
+            const data = await res.json();
+            this.convertedValue = data.rates[this.toCurrency];
+            this.showOutput = true;
+        } catch(error){
+            console.log(error);
+        }
     }
 }
